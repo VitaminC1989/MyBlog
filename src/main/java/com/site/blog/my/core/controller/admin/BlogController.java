@@ -42,18 +42,14 @@ public class BlogController {
 		return "admin/edit";
 	}
 
-	
 	// 存储文章
 	@PostMapping("/blogs/save")
 	@ResponseBody
 	public Result save(@RequestParam("blogTitle") String blogTitle,
 	        @RequestParam(name = "blogSubUrl", required = false) String blogSubUrl,
-	        @RequestParam("blogCategoryId") Integer blogCategoryId, 
-	        @RequestParam("blogTags") String blogTags,
-	        @RequestParam("blogContent") String blogContent, 
-	        @RequestParam("blogCoverImage") String blogCoverImage,
-	        @RequestParam("blogStatus") Byte blogStatus,
-	        @RequestParam("enableComment") Byte enableComment) {
+	        @RequestParam("blogCategoryId") Integer blogCategoryId, @RequestParam("blogTags") String blogTags,
+	        @RequestParam("blogContent") String blogContent, @RequestParam("blogCoverImage") String blogCoverImage,
+	        @RequestParam("blogStatus") Byte blogStatus, @RequestParam("enableComment") Byte enableComment) {
 
 		if (StringUtils.isEmpty(blogTitle)) {
 			return ResultGenerator.genFailResult("请输入文章标题");
@@ -88,6 +84,7 @@ public class BlogController {
 		blog.setBlogCoverImage(blogCoverImage);
 		blog.setBlogStatus(blogStatus);
 		blog.setEnableComment(enableComment);
+		//	blog.setUpdateTime(new Date());
 		String saveBlogResult = blogService.saveBlog(blog);
 		if ("success".equals(saveBlogResult)) {
 			return ResultGenerator.genSuccessResult("添加成功");

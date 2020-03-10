@@ -11,6 +11,7 @@ package com.site.blog.my.core;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 
 /**   
  * @ClassName:  Test   
@@ -20,25 +21,12 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Test {
 	public static void main(String[] args) {
-		String resultString = "123456";
-		String charsetname = "UTF-8";
-
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			byte[] bs = md.digest(resultString.getBytes(charsetname));
-			System.out.println(bs);
-			String str = new String(bs, "UTF-8");
-			System.out.println(str);
-
-		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		//		if (charsetname == null || "".equals(charsetname))
-		//			resultString = byteArrayToHexString(md.digest(resultString.getBytes()));
-		//		else
-		//			resultString = byteArrayToHexString(md.digest(resultString.getBytes(charsetname)));
+		Integer i1 = new Integer(1);
+		Integer i2 = new Integer(12);
+		System.out.println(i1.SIZE);
+		Byte b = i1.byteValue();
+		System.out.println(b.SIZE);
+		System.out.println(i2.byteValue());
 
 	}
 }
