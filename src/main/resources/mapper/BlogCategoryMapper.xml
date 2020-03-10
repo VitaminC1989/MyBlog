@@ -44,7 +44,7 @@
 		order by category_rank
 		desc,create_time desc
 		<if test="start!=null and limit!=null">
-			limit #{start},#{limit}
+			limit ${start},${limit}
 		</if>
 	</select>
 

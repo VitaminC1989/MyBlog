@@ -36,7 +36,7 @@
 		where is_deleted=0
 		order by tag_id desc
 		<if test="start!=null and limit!=null">
-			limit #{start},#{limit}
+			limit ${start},${limit}
 		</if>
 	</select>
 

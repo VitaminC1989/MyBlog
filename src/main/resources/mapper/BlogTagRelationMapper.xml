@@ -123,6 +123,13 @@
 			(#{item.blogId,jdbcType=BIGINT},#{item.tagId,jdbcType=INTEGER})
 		</foreach>
 	</insert>
+	<delete
+		id="deleteByBlogId"
+		parameterType="java.lang.Long">
+		delete from tb_blog_tag_relation
+		where blog_id =
+		#{blogId,jdbcType=BIGINT}
+	</delete>
 	<update
 		id="updateByPrimaryKeySelective"
 		parameterType="com.site.blog.my.core.entity.BlogTagRelation">

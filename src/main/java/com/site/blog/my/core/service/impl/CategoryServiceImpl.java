@@ -43,6 +43,15 @@ public class CategoryServiceImpl implements CategoryService {
 		return false;
 	}
 
+	/**
+	* @Title: updateCategory
+	* @Description: 更新分类
+	* @param categoryId
+	* @param categoryName
+	* @param categoryIcon
+	* @return
+	* @override: @see com.site.blog.my.core.service.CategoryService#updateCategory(java.lang.Integer, java.lang.String, java.lang.String)   
+	*/
 	@Override
 	@Transactional
 	public Boolean updateCategory(Integer categoryId, String categoryName, String categoryIcon) {
