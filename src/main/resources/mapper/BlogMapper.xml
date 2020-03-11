@@ -97,6 +97,9 @@
 		<include refid="Base_Column_List" />
 		from tb_blog
 		where is_deleted=0
+		<if test="blogStatus!=null">
+			AND blog_status = #{blogStatus}
+		</if>
 		order by blog_id desc
 		<if test="start!=null and limit!=null">
 			limit ${start},${limit}
@@ -109,6 +112,9 @@
 		resultType="int">
 		select count(*) from tb_blog
 		where is_deleted=0
+		<if test="blogStatus!=null">
+			AND blog_status = #{blogStatus}
+		</if>
 	</select>
 	<insert
 		id="insert"
@@ -369,4 +375,20 @@
 			#{id}
 		</foreach>
 	</update>
+
+	<select
+		id="findBlogListByType"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from tb_blog
+		where is_deleted=0 AND blog_status = 1<!-- 未删除 且 处于发布状态的文章 -->
+		<if test="type!=null and type==0">
+			order by blog_views desc
+		</if>
+		<if test="type!=null and type==1">
+			order by blog_id desc
+		</if>
+		limit ${limit}
+	</select>
 </mapper>

@@ -21,12 +21,7 @@ import java.util.Date;
  */
 public class Test {
 	public static void main(String[] args) {
-		Integer i1 = new Integer(1);
-		Integer i2 = new Integer(12);
-		System.out.println(i1.SIZE);
-		Byte b = i1.byteValue();
-		System.out.println(b.SIZE);
-		System.out.println(i2.byteValue());
 
 	}
+
 }

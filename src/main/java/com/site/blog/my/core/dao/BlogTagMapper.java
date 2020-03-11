@@ -1,6 +1,7 @@
 package com.site.blog.my.core.dao;
 
 import com.site.blog.my.core.entity.BlogTag;
+import com.site.blog.my.core.entity.BlogTagCount;
 import com.site.blog.my.core.util.PageQueryUtil;
 import org.springframework.stereotype.Component;
 
@@ -29,4 +30,6 @@ public interface BlogTagMapper {
 	int deleteBatch(Integer[] ids);
 
 	int batchInsertBlogTag(List<BlogTag> tagList);
+
+	List<BlogTagCount> getTagCount();
 }

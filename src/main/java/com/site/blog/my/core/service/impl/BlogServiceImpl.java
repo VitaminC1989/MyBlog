@@ -1,5 +1,8 @@
 package com.site.blog.my.core.service.impl;
 
+import com.site.blog.my.core.config.Constants;
+import com.site.blog.my.core.controller.vo.BlogListVO;
+import com.site.blog.my.core.controller.vo.SimpleBlogListVO;
 import com.site.blog.my.core.dao.BlogCategoryMapper;
 import com.site.blog.my.core.dao.BlogMapper;
 import com.site.blog.my.core.dao.BlogTagMapper;
@@ -12,13 +15,17 @@ import com.site.blog.my.core.service.BlogService;
 import com.site.blog.my.core.util.PageQueryUtil;
 import com.site.blog.my.core.util.PageResult;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -34,7 +41,7 @@ public class BlogServiceImpl implements BlogService {
 
 	/**
 	* @Title: saveBlog
-	* @Description: 保持博客
+	* @Description: 保存博客
 	* @param blog
 	* @return  String
 	* @override: @see com.site.blog.my.core.service.BlogService#saveBlog(com.site.blog.my.core.entity.Blog)   
@@ -205,4 +212,84 @@ public class BlogServiceImpl implements BlogService {
 	public Boolean deleteBatch(Integer[] ids) {
 		return blogMapper.deleteBatch(ids) > 0;
 	}
+
+	/**
+	* @Title: getBlogsForIndexPage
+	* @Description: 获取某一页（首页）博客BlogListVO值对象
+	* @param page   页数
+	* @return
+	* @override: @see com.site.blog.my.core.service.BlogService#getBlogsForIndexPage(int)   
+	*/
+	@Override
+	public PageResult getBlogsForIndexPage(int page) {
+		Map params = new HashMap();
+		params.put("page", page);
+		//每页8条
+		params.put("limit", 8);
+		params.put("blogStatus", 1);//过滤发布状态下的数据
+		PageQueryUtil pageUtil = new PageQueryUtil(params);
+		List<Blog> blogList = blogMapper.findBlogList(pageUtil);
+		List<BlogListVO> blogListVOS = getBlogListVOsByBlogs(blogList);
+		int total = blogMapper.getTotalBlogs(pageUtil);
+		PageResult pageResult = new PageResult(blogListVOS, total, pageUtil.getLimit(), pageUtil.getPage());
+		return pageResult;
+	}
+
+	/**
+	* @Title: getBlogListVOsByBlogs
+	* @Description: 将PO对象 blog 转换为 VO对象 BlogListVO
+	* @param blogList
+	* @return
+	* List<BlogListVO>
+	* @throws
+	*/
+	private List<BlogListVO> getBlogListVOsByBlogs(List<Blog> blogList) {
+		List<BlogListVO> blogListVOS = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(blogList)) {
+			List<Integer> categoryIds = blogList.stream().map(Blog::getBlogCategoryId).collect(Collectors.toList());
+			Map<Integer, String> blogCategoryMap = new HashMap<>();
+			if (!CollectionUtils.isEmpty(categoryIds)) {
+				List<BlogCategory> blogCategories = categoryMapper.selectByCategoryIds(categoryIds);
+				if (!CollectionUtils.isEmpty(blogCategories)) {
+					blogCategoryMap = blogCategories.stream().collect(Collectors.toMap(BlogCategory::getCategoryId,
+					        BlogCategory::getCategoryIcon, (key1, key2) -> key2));
+				}
+			}
+			for (Blog blog : blogList) {
+				BlogListVO blogListVO = new BlogListVO();
+				// 将PO对象 blog 的特定信息复制进 VO对象 blogListVO
+				BeanUtils.copyProperties(blog, blogListVO);
+				if (blogCategoryMap.containsKey(blog.getBlogCategoryId())) {
+					blogListVO.setBlogCategoryIcon(blogCategoryMap.get(blog.getBlogCategoryId()));
+				} else {
+					blogListVO.setBlogCategoryId(0);
+					blogListVO.setBlogCategoryName("默认分类");
+					blogListVO.setBlogCategoryIcon("/admin/dist/img/category/1.png");
+				}
+				blogListVOS.add(blogListVO);
+			}
+		}
+		return blogListVOS;
+	}
+
+	@Override
+	public List<SimpleBlogListVO> getBlogListForIndexPage(int type) {
+		List<SimpleBlogListVO> simpleBlogListVOS = new ArrayList<>();
+		/**
+		 * type:0  最热的文章
+		 * type:1  最新的文章
+		 * SIDEBAR_LIMIT是侧栏显示 最多点击和最新发布 博客展示栏的记录数  默认为5
+		 */
+
+		List<Blog> blogs = blogMapper.findBlogListByType(type, Constants.SIDEBAR_LIMIT);
+		if (!CollectionUtils.isEmpty(blogs)) {
+			for (Blog blog : blogs) {
+				SimpleBlogListVO simpleBlogListVO = new SimpleBlogListVO();
+				BeanUtils.copyProperties(blog, simpleBlogListVO);
+				simpleBlogListVOS.add(simpleBlogListVO);
+			}
+		}
+		return simpleBlogListVOS;
+	}
+
 }

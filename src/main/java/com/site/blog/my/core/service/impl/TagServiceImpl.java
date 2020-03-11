@@ -3,6 +3,7 @@ package com.site.blog.my.core.service.impl;
 import com.site.blog.my.core.dao.BlogTagMapper;
 import com.site.blog.my.core.dao.BlogTagRelationMapper;
 import com.site.blog.my.core.entity.BlogTag;
+import com.site.blog.my.core.entity.BlogTagCount;
 import com.site.blog.my.core.service.TagService;
 import com.site.blog.my.core.util.PageQueryUtil;
 import com.site.blog.my.core.util.PageResult;
@@ -49,5 +50,16 @@ public class TagServiceImpl implements TagService {
 		}
 		//删除tag
 		return blogTagMapper.deleteBatch(ids) > 0;
+	}
+
+	/**
+	* @Title: getBlogTagCountForIndex
+	* @Description: 获取用于主页的热门标签
+	* @return
+	* @override: @see com.site.blog.my.core.service.TagService#getBlogTagCountForIndex()   
+	*/
+	@Override
+	public List<BlogTagCount> getBlogTagCountForIndex() {
+		return blogTagMapper.getTagCount();
 	}
 }
