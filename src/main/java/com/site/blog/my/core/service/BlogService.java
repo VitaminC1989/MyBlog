@@ -50,4 +50,29 @@ public interface BlogService {
 	 */
 	PageResult getBlogsForIndexPage(int page);
 
+	/**
+	 * 根据搜索关键字获取首页文章列表
+	 *
+	 * @param page
+	 * @return
+	 */
+	PageResult getBlogsPageBySearch(String keyword, int page);
+
+	/**
+	* 根据分类获取文章列表
+	*
+	* @param categoryId
+	* @param page
+	* @return
+	*/
+	PageResult getBlogsPageByCategory(String categoryId, int page);
+
+	/**
+	 * 根据标签获取文章列表
+	 *
+	 * @param tagName
+	 * @param page
+	 * @return
+	 */
+	PageResult getBlogsPageByTag(String tagName, int page);
 }

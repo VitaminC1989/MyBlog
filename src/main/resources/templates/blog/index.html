@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
 <head th:replace="blog/header::head-fragment"></head>
 <body>
 	<header th:replace="blog/header::header-fragment"></header>
@@ -19,7 +20,8 @@
 											</h3>
 										</a>
 										<div class="blog-category">
-											<a>
+											<!-- ÂàÜÁ±ªÊêúÁ¥¢ÈìæÊé• -->
+											<a th:href="@{'/category/' + ${blog.blogCategoryName}}">
 												<div class="blog-category-icon">
 													<img th:src="@{${blog.blogCategoryIcon}}" alt="">
 												</div>
@@ -78,13 +80,13 @@
 				<aside class="col-md-4 blog-aside">
 					<div class="aside-widget">
 						<header>
-							<h3>µ„ª˜◊Ó∂‡</h3>
+							<h3>ÁÇπÂáªÊúÄÂ§ö</h3>
 						</header>
 						<div class="body">
 							<ul class="clean-list">
 								<th:block th:if="${null != hotBlogs}">
 									<th:block th:each="hotBlog : ${hotBlogs}">
-										<!-- ¡¥Ω”‘›∂®£¨∫Û√Ê µœ÷¡ÀŒƒ’¬œÍ«È‘Ÿ–¥ -->
+										<!-- ÈìæÊé•ÊöÇÂÆöÔºåÂêéÈù¢ÂÆûÁé∞‰∫ÜÊñáÁ´†ËØ¶ÊÉÖÂÜçÂÜô -->
 										<li>
 											<a>
 												<th:block th:text="${hotBlog.blogTitle}"></th:block>
@@ -97,7 +99,7 @@
 					</div>
 					<div class="aside-widget">
 						<header>
-							<h3>◊Ó–¬∑¢≤º</h3>
+							<h3>ÊúÄÊñ∞ÂèëÂ∏É</h3>
 						</header>
 						<div class="body">
 							<ul class="clean-list">
@@ -115,14 +117,15 @@
 					</div>
 					<div class="aside-widget">
 						<header>
-							<h3>±Í«©¿∏</h3>
+							<h3>Ê†áÁ≠æÊ†è</h3>
 						</header>
 						<div class="body clearfix">
 							<ul class="tags">
 								<th:block th:if="${null != hotTags}">
 									<th:block th:each="hotTag : ${hotTags}">
 										<li>
-											<a>
+											<a th:href="@{'/tag/' + ${hotTag.tagName}}">
+												<!-- Ê†áÁ≠æÊêúÁ¥¢ÈìæÊé• -->
 												<th:block th:text="${hotTag.tagName}+'('+${hotTag.tagCount}+')'"></th:block>
 											</a>
 										</li>
@@ -135,8 +138,10 @@
 			</div>
 		</div>
 	</div>
-	<!-- “˝»Î“≥Ω≈footer-fragment -->
+	<!-- ÂºïÂÖ•È°µËÑöfooter-fragment -->
 	<footer th:replace="blog/footer::footer-fragment"></footer>
+	<!-- ÊêúÁ¥¢JS -->
+	<script th:src="@{/blog/js/search.js}"></script>
 	<script th:src="@{/blog/js/jquery.min.js}"></script>
 	<script th:src="@{/blog/js/bootstrap.min.js}"></script>
 	<script th:src="@{/blog/js/modernizr.js}"></script>

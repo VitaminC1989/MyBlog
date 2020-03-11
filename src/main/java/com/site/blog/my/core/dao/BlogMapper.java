@@ -29,5 +29,14 @@ public interface BlogMapper {
 
 	int deleteBatch(Integer[] ids);
 
+	/**
+	 * type:0  最多点击
+	 * type:1  最新文章
+	 */
 	List<Blog> findBlogListByType(@Param("type") int type, @Param("limit") int limit);
+
+	List<Blog> getBlogsPageByTagId(PageQueryUtil pageUtil);
+
+	int getTotalBlogsByTagId(PageQueryUtil pageUtil);
+
 }
