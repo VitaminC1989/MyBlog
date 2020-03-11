@@ -1,5 +1,6 @@
 package com.site.blog.my.core.controller.blog;
 
+import com.site.blog.my.core.controller.vo.BlogDetailVO;
 import com.site.blog.my.core.service.BlogService;
 import com.site.blog.my.core.service.TagService;
 import com.site.blog.my.core.util.PageResult;
@@ -126,5 +127,20 @@ public class MyBlogController {
 		request.setAttribute("pageUrl", "tag");
 		request.setAttribute("keyword", tagName);
 		return "blog/list";
+	}
+
+	/**
+	 * 文章详情页
+	 *
+	 * @return
+	 */
+	@GetMapping("/blog/{blogId}")
+	public String detail(HttpServletRequest request, @PathVariable("blogId") Long blogId) {
+		BlogDetailVO blogDetailVO = blogService.getBlogDetail(blogId);
+		if (blogDetailVO != null) {
+			request.setAttribute("blogDetailVO", blogDetailVO);
+		}
+		request.setAttribute("pageName", "详情");
+		return "blog/detail";
 	}
 }

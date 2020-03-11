@@ -2,6 +2,7 @@ package com.site.blog.my.core.service;
 
 import java.util.List;
 
+import com.site.blog.my.core.controller.vo.BlogDetailVO;
 import com.site.blog.my.core.controller.vo.SimpleBlogListVO;
 import com.site.blog.my.core.entity.Blog;
 import com.site.blog.my.core.util.PageQueryUtil;
@@ -75,4 +76,12 @@ public interface BlogService {
 	 * @return
 	 */
 	PageResult getBlogsPageByTag(String tagName, int page);
+
+	/**
+	 * 文章详情获取
+	 *
+	 * @param blogId
+	 * @return
+	 */
+	BlogDetailVO getBlogDetail(Long blogId);
 }

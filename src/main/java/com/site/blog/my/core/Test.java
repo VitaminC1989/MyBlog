@@ -13,6 +13,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
+import com.site.blog.my.core.util.MarkDownUtil;
+
 /**   
  * @ClassName:  Test   
  * @Description:TODO
@@ -21,6 +23,9 @@ import java.util.Date;
  */
 public class Test {
 	public static void main(String[] args) {
+		String html  = MarkDownUtil.mdToHtml(markdown.MD); 
+		System.out.println(html);
+				
 
 	}
 
